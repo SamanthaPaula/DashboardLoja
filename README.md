@@ -22,3 +22,12 @@ A solução foi desenvolvida como parte de um projeto acadêmico de Modelagem de
 - Gráficos para facilitar a interpretação dos dados.
 - Análise de informações para apoio à gestão empresarial.
 
+ ## Tecnologias utilizadas
+
+- **HTML5:** estruturação das páginas.
+- **CSS3:** estilização e organização visual.
+- **JavaScript:** funcionalidades e interatividade.
+- **MySQL:** gerenciamento e armazenamento dos dados.
+- **SQL:** criação, manipulação e consulta das informações.
+- **Git e GitHub:** versionamento e hospedagem do código.
+
