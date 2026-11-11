@@ -44,5 +44,8 @@ O BI pode transformar os dados armazenados em indicadores, gráficos e relatóri
 
 Como evolução futura, a IA poderá auxiliar na identificação de padrões, análise de movimentações, identificação de possíveis inconsistências e previsão de necessidades de reposição de estoque.
 
-- **Git e GitHub:** versionamento e hospedagem do código.
+## Projeto acadêmico
+
+Desenvolvido como parte das atividades acadêmicas da disciplina de Modelagem de Banco de Dados, com o objetivo de aplicar conhecimentos de modelagem, SQL, desenvolvimento web e análise de dados em um cenário empresarial.
+
 
