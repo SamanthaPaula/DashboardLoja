@@ -29,5 +29,20 @@ A solução foi desenvolvida como parte de um projeto acadêmico de Modelagem de
 - **JavaScript:** funcionalidades e interatividade.
 - **MySQL:** gerenciamento e armazenamento dos dados.
 - **SQL:** criação, manipulação e consulta das informações.
+
+  ## Banco de Dados
+
+O projeto utiliza MySQL para estruturar e armazenar as informações necessárias à gestão.
+
+Os arquivos SQL disponibilizados no repositório contemplam a criação das tabelas, inserção de dados e consultas utilizadas no desenvolvimento e na demonstração do projeto.
+
+## Business Intelligence e Inteligência Artificial
+
+Além da implementação do banco de dados e da dashboard, o projeto apresenta possibilidades de utilização de Business Intelligence (BI) e Inteligência Artificial (IA).
+
+O BI pode transformar os dados armazenados em indicadores, gráficos e relatórios, facilitando o acompanhamento do desempenho empresarial.
+
+Como evolução futura, a IA poderá auxiliar na identificação de padrões, análise de movimentações, identificação de possíveis inconsistências e previsão de necessidades de reposição de estoque.
+
 - **Git e GitHub:** versionamento e hospedagem do código.
 
