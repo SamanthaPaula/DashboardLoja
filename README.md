@@ -14,3 +14,11 @@ A solução foi desenvolvida como parte de um projeto acadêmico de Modelagem de
 - Auxiliar na identificação de problemas e oportunidades.
 - Demonstrar como os dados podem apoiar a tomada de decisões.
 
+## Funcionalidades
+
+- Dashboard com indicadores de gestão.
+- Visualização de informações de vendas e faturamento.
+- Acompanhamento de produtos e estoque.
+- Gráficos para facilitar a interpretação dos dados.
+- Análise de informações para apoio à gestão empresarial.
+
