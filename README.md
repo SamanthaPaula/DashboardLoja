@@ -38,7 +38,7 @@ Os arquivos SQL disponibilizados no repositório contemplam a criação das tabe
 
 ## Business Intelligence e Inteligência Artificial
 
-Além da implementação do banco de dados e da dashboard, o projeto apresenta possibilidades de utilização de Business Intelligence (BI) e Inteligência Artificial (IA).
+Além da implementação do banco de dados e da dashboard, o projeto apresenta possibilidades de utilização de Business Intelligence (BI) e Inteligência Artificial (IA). Que serão implementadas futuramente.
 
 O BI pode transformar os dados armazenados em indicadores, gráficos e relatórios, facilitando o acompanhamento do desempenho empresarial.
 
