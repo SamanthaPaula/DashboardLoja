@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANSARAH | Dashboard Gerencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style id="appcss">
+:root{--bg:#fbf5f6;--card:#fff;--tx:#2b1d22;--mu:#7d6a70;--bd:#efdfe3;--wine:#7a1f3d;--pink:#f6d5de;--pink2:#e9a3b8;--ok:#2e7d5b;--warn:#c27a10;--bad:#b3261e;--okb:#e1f3ea;--warnb:#fdf0d8;--badb:#fbe0de}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,sans-serif}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+aside{background:linear-gradient(180deg,#5a1230,#7a1f3d);color:#fff;padding:22px 14px;position:sticky;top:0;height:100vh}
+.logo{font:700 26px 'Playfair Display',Georgia,serif;letter-spacing:3px;padding:0 10px}.logo small{display:block;font:500 10px Inter,sans-serif;letter-spacing:1.5px;color:var(--pink)}
+nav{margin-top:28px;display:flex;flex-direction:column;gap:4px}nav button{all:unset;cursor:pointer;padding:10px 12px;border-radius:10px;color:var(--pink);font-weight:500}
+nav button:hover{background:rgba(255,255,255,.1)}nav button.on{background:var(--pink);color:#5a1230}
+main{padding:22px 26px;min-width:0}h1{font:700 26px 'Playfair Display',Georgia,serif;margin:0;color:var(--wine)}
+#st{font-size:12px;font-weight:600;margin:4px 0 14px}#st.ok{color:var(--ok)}#st.bad{color:var(--bad)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;background:var(--card);border:1px solid var(--bd);padding:12px;border-radius:14px;margin-bottom:18px}
+.filters label,.fm label{display:flex;flex-direction:column;font-size:11px;color:var(--mu);font-weight:600;gap:3px;flex:1;min-width:130px}
+select,input{font:inherit;padding:8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;border-top:3px solid var(--pink2)}.kpi.al{border-top-color:var(--bad)}
+.kpi span{font-size:11px;color:var(--mu);font-weight:600;text-transform:uppercase}.kpi b{display:block;font:700 24px 'Playfair Display',Georgia,serif;color:var(--wine)}.kpi small{color:var(--mu);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;min-width:0;margin-bottom:14px}.card h3{margin:0 0 10px;font-size:14px;color:var(--wine)}
+.ch{position:relative;height:250px}.wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:11px;text-transform:uppercase;color:var(--mu);padding:8px;border-bottom:2px solid var(--bd);white-space:nowrap}td{padding:9px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
+tr.att td{background:var(--badb)}tr.low td{background:var(--warnb)}.tag{padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.normal,.Concluído,.OK{background:var(--okb);color:var(--ok)}.baixo,.Parcialmente{background:var(--warnb);color:var(--warn)}.sem,.Pendente,.Falha{background:var(--badb);color:var(--bad)}
+.sec{display:none}.sec.on{display:block}details{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 16px;margin-bottom:14px}
+summary{cursor:pointer;font-weight:600;color:var(--wine)}.fm{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:flex-end}
+.itm{display:flex;gap:8px;width:100%}.itm select{flex:3}.itm input{flex:1}
+button.b{cursor:pointer;border:0;background:var(--wine);color:#fff;padding:9px 16px;border-radius:8px;font:inherit;font-weight:600}button.b.s{background:none;color:var(--wine);border:1px solid var(--wine);padding:3px 10px}
+#toast{position:fixed;right:18px;bottom:18px;background:var(--wine);color:#fff;padding:10px 16px;border-radius:10px;display:none;max-width:340px}#toast.err{background:var(--bad)}
+.bn{padding:8px 12px;border-radius:10px;margin-bottom:12px;font-size:12px;font-weight:600}.bn.ok{background:var(--okb);color:var(--ok)}.bn.no{background:var(--badb);color:var(--bad)}
+.rv{margin:10px 0;font-size:13px}.fm .w{flex:2;min-width:240px}h4{margin:14px 0 6px;color:var(--wine);font-size:13px}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:static;height:auto;padding:12px}nav{flex-direction:row;overflow-x:auto;margin-top:10px}main{padding:16px}}
+</style></head><body><div class="app">
+<aside><div class="logo">ANSARAH<small>DASHBOARD GERENCIAL</small></div><nav id="nav"></nav></aside>
+<main><h1>ANSARAH | Dashboard Gerencial</h1><div id="st">Conectando…</div><div id="alerta" class="bn no" style="display:none"></div><div class="fm" style="margin:0 0 14px"><label style="font-size:11px;font-weight:600;color:var(--mu);display:flex;flex-direction:column;gap:3px">Operador (responsável)<select id="op"></select></label><button class="b" id="rel">📄 Gerar relatório (PDF)</button><select id="csvT"><option value="estoque">Estoque</option><option value="vendas">Vendas</option><option value="reposicao">Reposição</option><option value="auditoria">Auditoria</option></select><button class="b s" id="csv">Exportar CSV (Excel)</button></div>
+<div class="filters" id="filters"></div>
+<section class="sec on"><div class="kpis" id="kpis"></div><div class="grid"><div class="card"><h3>Evolução do faturamento</h3><div class="ch"><canvas id="c1"></canvas></div></div><div class="card"><h3>Vendas por canal</h3><div class="ch"><canvas id="c3"></canvas></div></div></div><div class="card"><h3>Estoque que precisa de atenção</h3><div class="wrap" id="alerts"></div></div></section>
+<section class="sec"><details><summary>+ Registrar venda</summary><div class="fm" id="fv"><label>Canal<select id="v_can"><option>Loja física</option><option>E-commerce</option><option>Atacado</option></select></label><label>Status<select id="v_st"><option>Concluída</option><option>Em separação</option><option>Aguardando pagamento</option></select></label><label>Desconto (R$)<input id="v_desc" type="number" value="0" min="0"></label><div id="v_items" style="width:100%"></div><button class="b s" id="v_add">+ item</button><button class="b" id="v_ok">Gravar no MySQL</button></div></details>
+<div class="grid"><div class="card"><h3>Varejo x Atacado (por dia)</h3><div class="ch"><canvas id="c2"></canvas></div></div><div class="card"><h3>Produtos mais vendidos (un.)</h3><div class="ch"><canvas id="c4"></canvas></div></div></div><div class="card"><h3>Últimas vendas</h3><div class="wrap" id="vlist"></div></div></section>
+<section class="sec"><details><summary>+ Ajustar estoque / novo SKU</summary><div class="fm"><label>SKU<select id="e_sku" class="sk"></select></label><label>Nova quantidade<input id="e_q" type="number" min="0"></label><label>Justificativa<input id="e_j" placeholder="Ex.: inventário físico"></label><button class="b" id="e_ok">Ajustar</button></div>
+<div class="fm"><label>Produto<select id="n_prod"></select></label><label>Código SKU<input id="n_cod"></label><label>Cor<select id="n_cor"></select></label><label>Tamanho<select id="n_tam"></select></label><label>Qtd.<input id="n_q" type="number" min="0" value="0"></label><button class="b" id="n_ok">Criar SKU</button></div></details>
+<div class="card"><div style="display:flex;justify-content:space-between"><h3>Controle de estoque</h3><button class="b s" id="att">Somente atenção</button></div><div class="wrap" id="stock"></div></div></section>
+<section class="sec"><details id="pdet"><summary>+ Novo produto</summary><div class="fm"><label>Nome *<input id="p_nome"></label><label>Código *<input id="p_cod"></label><label class="w">Descrição<input id="p_desc"></label><label>Referência<input id="p_ref"></label><label>NCM (8 dígitos)<input id="p_ncm" maxlength="8"></label><label>Grupo *<input id="p_grupo" placeholder="Roupas fitness"></label><label>Categoria *<input id="p_cat"></label><label>Tipo *<input id="p_tipo"></label><label>Unid. tributação *<input id="p_un" value="UN"></label><label>Marca *<select id="p_marca"></select></label><button class="b" id="p_ok">Cadastrar produto</button><button class="b s" id="p_cancel" style="display:none">Cancelar edição</button></div></details>
+<div class="card"><h3>Produtos cadastrados</h3><div class="wrap" id="prods"></div></div></section>
+<section class="sec"><details><summary>+ Novo pedido de reposição</summary><div class="fm"><label>Fornecedor<select id="r_for"></select></label><label>Previsão de entrega<input id="r_prev" type="date"></label><label>SKU<select id="r_sku" class="sk"></select></label><label>Qtd.<input id="r_q" type="number" min="1"></label><label>Preço unit.<input id="r_p" type="number" step="0.01"></label><button class="b" id="r_ok">Gravar no MySQL</button></div></details>
+<div class="card"><h3>Pedidos de reposição</h3><div class="wrap" id="repo"></div></div></section>
+<section class="sec"><div class="card"><h3>Backups e restaurações</h3><div id="bnote"></div><div class="kpis" id="bkpis"></div>
+<div class="fm" style="margin:0 0 12px"><button class="b" id="b_exp">Exportar banco de dados</button><button class="b s" id="b_rest">Restaurar backup</button></div>
+<div id="rp" style="display:none;border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px"><h4 style="margin-top:0">Restaurar backup (.sql)</h4>
+<div class="fm" style="margin-top:0"><label class="w">Arquivo .sql<input type="file" id="rf_in" accept=".sql"></label><button class="b s" id="rv_btn">1. Validar arquivo</button></div><div class="rv" id="rv"></div>
+<div class="fm"><label class="w">Motivo da restauração *<input id="rs_mot" maxlength="255" placeholder="Ex.: teste de recuperação após perda de dados"></label><label>Digite o nome do banco para confirmar<input id="rs_conf" autocomplete="off"></label><button class="b" id="rs_btn" disabled>2. Restaurar agora</button></div><div class="rv" id="rs_msg"></div>
+<div style="font-size:12px;color:var(--mu)">Antes de restaurar, o sistema gera um backup de segurança. As tabelas de histórico (backups, restaurações e auditoria) nunca são sobrescritas. Se algo falhar, o banco é revertido automaticamente.</div></div>
+<div class="filters" id="bfilters"><label>Período<select id="b_per"></select></label><label>Tipo de operação<select id="b_tipo"></select></label><label>Status<select id="b_st"></select></label><label>Responsável<select id="b_resp"></select></label></div>
+<div class="wrap" id="bk"></div></div><div class="card"><h3>Registros de auditoria</h3><div class="wrap" id="aud"></div></div></section>
+<section class="sec"><div class="kpis" id="fkpis"></div>
+<div class="filters"><label>Departamento<select id="fdep"></select></label><label>Pesquisar por nome<input id="fq" type="search" placeholder="Digite o nome…"></label></div>
+<details><summary>+ Cadastrar funcionário com acesso</summary><div class="fm"><label class="w">Nome completo *<input id="f_nome"></label><label>Cargo *<input id="f_cargo"></label><label>Departamento *<select id="f_dep"></select></label><label>Login *<input id="f_login" placeholder="nome.sobrenome"></label><label>Perfil de acesso *<input id="f_perfil" list="f_perf" placeholder="Ex.: Gerente de vendas"></label><datalist id="f_perf"></datalist><button class="b" id="f_ok">Cadastrar</button></div><div style="font-size:12px;color:var(--mu);margin-top:8px">Só aparece na lista de operadores quem tiver perfil de gerência/administração. Exige um operador autorizado selecionado no topo.</div></details>
+<div class="card"><h3>Funcionários por departamento</h3><div class="wrap" id="fdept"></div></div>
+<div class="card"><h3>Listagem de funcionários</h3><div class="wrap" id="flist"></div></div></section>
+</main></div><div id="toast"></div>
+<script>
+const $=i=>document.getElementById(i),brl=v=>(+v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}),esc=s=>String(s??'—').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(),tag=(c,t)=>`<span class="tag ${c}">${esc(t)}</span>`;
+const canon=c=>{c=norm(c);return c.includes('atac')?'Atacado':c.includes('commerce')?'E-commerce':'Loja física'};
+const stOf=e=>e<=0?'sem':e<=15?'baixo':'normal',stL={sem:'Sem estoque',baixo:'Baixo',normal:'Normal'};
+const tb=(h,r)=>`<table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.join('')}</table>`,dt=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(0,4)+' '+s.slice(11,16):'—';
+const lbl=s=>`${s.nome_produto} ${s.nome_cor||''} ${s.sigla_tamanho||''}`.trim();
+let D,last='',att=false;
+// navegação, filtros
+$('nav').innerHTML=['Visão Geral','Vendas','Estoque','Produtos','Reposição','Auditoria','Funcionários'].map((t,i)=>`<button class="${i?'':'on'}" data-i="${i}">${t}</button>`).join('');
+$('nav').onclick=e=>{const i=e.target.dataset.i;if(i==null)return;[...$('nav').children].forEach((b,j)=>b.classList.toggle('on',j==i));document.querySelectorAll('.sec').forEach((s,j)=>s.classList.toggle('on',j==i))};
+const FL={per:'Período',can:'Canal de venda',cat:'Categoria',mar:'Marca',sit:'Situação do estoque'};
+$('filters').innerHTML=Object.entries(FL).map(([k,l])=>`<label>${l}<select id="f_${k}"></select></label>`).join('');
+const fill=(id,arr)=>{const s=$(id),v=s.value;s.innerHTML=arr.map(o=>{const[t,x=t]=String(o).split('|');return`<option value="${esc(x)}">${esc(t)}</option>`}).join('');s.value=v;if(s.selectedIndex<0)s.selectedIndex=0};
+const toast=(m,e)=>{const t=$('toast');t.textContent=m;t.className=e?'err':'';t.style.display='block';setTimeout(()=>t.style.display='none',3500)};
+async function post(u,b){try{const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});const j=await r.json();if(!r.ok)throw new Error(j.erro);toast('Gravado no MySQL ✓');last='';load()}catch(e){toast(e.message,1)}}
+// gráficos
+Chart.defaults.font.family='Inter,sans-serif';Chart.defaults.maintainAspectRatio=false;
+const W='#7a1f3d',PK='#e9a3b8',PL='#c9566f',sc=()=>({x:{grid:{display:false}},y:{grid:{color:'#f1e6e9'},beginAtZero:true}});
+const C={c1:new Chart($('c1'),{type:'line',data:{labels:[],datasets:[{label:'Faturamento',data:[],borderColor:W,backgroundColor:'rgba(233,163,184,.3)',fill:true,tension:.3}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>brl(c.parsed.y)}}},scales:sc()}}),
+c2:new Chart($('c2'),{type:'bar',data:{labels:[],datasets:[{label:'Varejo',data:[],backgroundColor:PK,borderRadius:5},{label:'Atacado',data:[],backgroundColor:W,borderRadius:5}]},options:{plugins:{tooltip:{callbacks:{label:c=>c.dataset.label+': '+brl(c.parsed.y)}}},scales:sc()}}),
+c3:new Chart($('c3'),{type:'doughnut',data:{labels:[],datasets:[{data:[],backgroundColor:[PK,W,PL],borderWidth:2}]},options:{cutout:'62%',plugins:{tooltip:{callbacks:{label:c=>c.label+': '+brl(c.parsed)}}}}}),
+c4:new Chart($('c4'),{type:'bar',data:{labels:[],datasets:[{label:'Unidades',data:[],backgroundColor:PL,borderRadius:5}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#f1e6e9'}},y:{grid:{display:false}}}}})};
+function render(){
+ fill('f_per',['Todo o período|0','Últimos 30 dias|30','Últimos 7 dias|7']);fill('f_can',['Todos|','Varejo|V','Atacado|A']);
+ fill('f_cat',['Todas|',...new Set(D.skus.map(s=>s.grupo_produto))]);fill('f_mar',['Todas|',...new Set(D.skus.map(s=>s.nome_marca))]);fill('f_sit',['Todas|','Normal|normal','Baixo|baixo','Sem estoque|sem']);
+ const so=D.skus.map(s=>`${s.id_sku}|${s.codigo_sku} · ${lbl(s)} (est. ${s.est})`);
+ document.querySelectorAll('.sk').forEach(s=>fill(s.id,so));
+ fill('n_prod',D.produtos.map(p=>`${p.id_produto}|${p.codigo_produto} · ${p.nome_produto}`));fill('n_cor',['—|',...D.cores.map(c=>`${c.id_cor}|${c.nome_cor}`)]);fill('n_tam',['—|',...D.tams.map(t=>`${t.id_tamanho}|${t.sigla_tamanho}`)]);fill('p_marca',D.marcas.map(m=>`${m.id_marca}|${m.nome_marca}`));fill('r_for',D.fornec.map(f=>`${f.id_fornecedor}|${f.nome_fornecedor}`));
+ document.querySelectorAll('#v_items .itm select').forEach(s=>{const v=s.value;s.innerHTML=so.map(o=>{const[t,x]=o.split('|');return`<option value="${x}">${esc(t)}</option>`}).join('');s.value=v;if(s.selectedIndex<0)s.selectedIndex=0});
+ const g=k=>$('f_'+k).value,skus=D.skus.filter(s=>(!g('cat')||s.grupo_produto==g('cat'))&&(!g('mar')||s.nome_marca==g('mar'))&&(!g('sit')||stOf(s.est)==g('sit')));
+ const ok=new Set(skus.map(s=>s.id_sku)),SM=Object.fromEntries(D.skus.map(s=>[s.id_sku,s]));
+ // vendas
+ const V={};D.vendas.forEach(r=>{(V[r.id_venda]??={...r,it:[]});if(r.id_sku)V[r.id_venda].it.push(r)});
+ const lim=g('per')>0?Date.now()-g('per')*864e5:0,ch=g('can');const days={},byC={},units={};let nS=0,tot=0;
+ Object.values(V).forEach(v=>{if(!norm(v.status_venda).startsWith('conclu'))return;if(lim&&new Date(v.data_venda.replace(' ','T'))<lim)return;const c=canon(v.canal_venda);if(ch&&(ch=='A')!=(c=='Atacado'))return;
+  const its=v.it.filter(i=>ok.has(i.id_sku));if(!its.length)return;const gross=its.reduce((a,i)=>a+i.q*i.pr,0),all=v.it.reduce((a,i)=>a+i.q*i.pr,0),net=gross-v.desconto_venda*(all?gross/all:0),d=v.data_venda.slice(0,10);
+  days[d]??={v:0,a:0};days[d][c=='Atacado'?'a':'v']+=net;byC[c]=(byC[c]||0)+net;nS++;tot+=net;its.forEach(i=>{const n=lbl(SM[i.id_sku]);units[n]=(units[n]||0)+i.q})});
+ const dk=Object.keys(days).sort(),lm=(dk[dk.length-1]||'').slice(0,7),fat=dk.filter(d=>d.startsWith(lm)).reduce((a,d)=>a+days[d].v+days[d].a,0);
+ // KPIs
+ const inc=p=>!p.descricao_produto||!p.referencia_produto||!p.codigo_ncm,sInc=s=>!s.id_cor||!s.id_tamanho||s.peso==null;
+ const prods=D.produtos.filter(p=>(!g('cat')||p.grupo_produto==g('cat'))&&(!g('mar')||p.nome_marca==g('mar'))&&(!g('sit')||skus.some(s=>s.id_produto==p.id_produto)));
+ const pend=D.repos.filter(r=>ok.has(r.id_sku)).reduce((a,r)=>a+Math.max(0,r.sol-r.rec),0),low=skus.filter(s=>stOf(s.est)=='baixo').length;
+ const incN=prods.filter(p=>inc(p)||D.skus.some(s=>s.id_produto==p.id_produto&&sInc(s))).length;
+ $('kpis').innerHTML=[['Faturamento mensal',brl(fat),lm?'mês '+lm.slice(5)+'/'+lm.slice(0,4)+' · concluídas':'sem vendas'],['Ticket médio',brl(nS?tot/nS:0),nS+' vendas concluídas'],['Produtos cadastrados',prods.length,'no filtro atual'],['Estoque baixo',low,'SKUs com até 15 un.',1],['Reposições pendentes',pend+' un.','a receber',1],['Cadastros incompletos',incN,'campos obrigatórios vazios',1]].map(k=>`<div class="kpi ${k[3]?'al':''}"><span>${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></div>`).join('');
+ const L=dk.map(d=>d.slice(8)+'/'+d.slice(5,7));C.c1.data.labels=C.c2.data.labels=L;C.c1.data.datasets[0].data=dk.map(d=>days[d].v+days[d].a);C.c2.data.datasets[0].data=dk.map(d=>days[d].v);C.c2.data.datasets[1].data=dk.map(d=>days[d].a);
+ C.c3.data.labels=Object.keys(byC);C.c3.data.datasets[0].data=Object.values(byC);const t6=Object.entries(units).sort((a,b)=>b[1]-a[1]).slice(0,6);C.c4.data.labels=t6.map(t=>t[0]);C.c4.data.datasets[0].data=t6.map(t=>t[1]);Object.values(C).forEach(c=>c.update());
+ // tabelas
+ const sorted=[...skus].sort((a,b)=>a.est-b.est),atn=sorted.filter(s=>stOf(s.est)!='normal'),sh=['SKU','Produto','Cor / Tam.','Qtd.','Situação'];
+ const row=s=>`<tr class="${stOf(s.est)=='sem'?'att':stOf(s.est)=='baixo'?'low':''}"><td>${esc(s.codigo_sku)}</td><td>${esc(s.nome_produto)}</td><td>${esc(s.nome_cor)} / ${esc(s.sigla_tamanho)}</td><td>${s.est}</td><td>${tag(stOf(s.est),stL[stOf(s.est)])}</td></tr>`;
+ $('stock').innerHTML=tb(sh,(att?atn:sorted).map(row));$('alerts').innerHTML=atn.length?tb(sh,atn.slice(0,8).map(row)):'Nenhum alerta.';
+ $('prods').innerHTML=tb(['Código','Produto','Grupo','Marca','Cadastro',''],prods.map(p=>{const m=[!p.descricao_produto&&'descrição',!p.referencia_produto&&'referência',!p.codigo_ncm&&'NCM',D.skus.some(s=>s.id_produto==p.id_produto&&sInc(s))&&'SKU'].filter(Boolean);return`<tr><td>${esc(p.codigo_produto)}</td><td>${esc(p.nome_produto)}</td><td>${esc(p.grupo_produto)}</td><td>${esc(p.nome_marca)}</td><td>${m.length?tag('sem','Incompleto: '+m.join(', ')):tag('normal','Completo')}</td><td><button class="b s" data-ed="${p.id_produto}">Editar</button> <button class="b s" data-del="${p.id_produto}">Excluir</button></td></tr>`}));
+ $('vlist').innerHTML=tb(['Venda','Data','Canal','Status','Total'],Object.values(V).slice(0,12).map(v=>`<tr><td>#${v.id_venda}</td><td>${dt(v.data_venda)}</td><td>${canon(v.canal_venda)}</td><td>${esc(v.status_venda)}</td><td>${brl(v.it.length?v.it.reduce((a,i)=>a+i.q*i.pr,0)-v.desconto_venda:0)}</td></tr>`));
+ $('repo').innerHTML=tb(['Pedido','Fornecedor','Produto','Solic.','Receb.','Pend.','Status','Pedido (BD)',''],D.repos.filter(r=>ok.has(r.id_sku)).map(r=>{const p=r.sol-r.rec,s=p==0?'Concluído':r.rec==0?'Pendente':'Parcialmente';return`<tr><td>#${r.id_reposicao}</td><td>${esc(r.nome_fornecedor)}</td><td>${esc(lbl(SM[r.id_sku]))}</td><td>${r.sol}</td><td>${r.rec}</td><td>${p}</td><td>${tag(s,s=='Parcialmente'?'Parcialmente Recebido':s)}</td><td>${esc(r.status_reposicao)}</td><td>${p?`<button class="b s" data-rec="${r.id_item_reposicao}" data-p="${p}">Receber</button>`:''}</td></tr>`}));
+ $('aud').innerHTML=tb(['Data / hora','Usuário','Operação','Entidade','Descrição','Justificativa'],D.audit.map(a=>`<tr><td>${dt(a.data_hora_log)}</td><td>${esc(nm(a.login_usuario))}</td><td>${tag('OK',a.tipo_operacao)}</td><td>${esc(a.entidade_afetada)}</td><td>${esc(a.descricao_operacao)}</td><td>${esc(a.justificativa_operacao)}</td></tr>`));
+ renderBk();
+}
+// ações → MySQL
+const addItem=()=>{const d=document.createElement('div');d.className='itm';d.innerHTML='<select></select><input type="number" min="1" placeholder="Qtd" value="1"><input type="number" min="0" step="0.01" placeholder="Preço">';$('v_items').appendChild(d);render()};
+$('v_add').onclick=addItem;
+$('v_ok').onclick=()=>post('/api/venda',{canal:$('v_can').value,status:$('v_st').value,desconto:$('v_desc').value,itens:[...document.querySelectorAll('#v_items .itm')].map(d=>({id_sku:d.children[0].value,qtd:d.children[1].value,preco:d.children[2].value}))});
+$('e_ok').onclick=()=>post('/api/estoque',{id_sku:$('e_sku').value,quantidade:$('e_q').value,justificativa:$('e_j').value});
+$('n_ok').onclick=()=>post('/api/sku',{id_produto:$('n_prod').value,codigo_sku:$('n_cod').value,id_cor:$('n_cor').value,id_tamanho:$('n_tam').value,quantidade_estoque:$('n_q').value});
+$('r_ok').onclick=()=>post('/api/reposicao',{id_fornecedor:$('r_for').value,previsao:$('r_prev').value,itens:[{id_sku:$('r_sku').value,qtd:$('r_q').value,preco:$('r_p').value}]});
+$('repo').onclick=e=>{const id=e.target.dataset.rec;if(!id)return;const q=prompt('Quantidade recebida (pendente: '+e.target.dataset.p+')',e.target.dataset.p);if(q)post('/api/receber',{id_item_reposicao:id,qtd:q})};
+$('att').onclick=()=>{att=!att;$('att').textContent=att?'Mostrar todos':'Somente atenção';render()};
+document.querySelectorAll('#filters select').forEach(s=>s.onchange=()=>render());
+// sincronização MySQL → dashboard (consulta a cada 4 s)
+async function load(){try{const r=await fetch('/api/data'),t=await r.text();if(!r.ok)throw new Error(JSON.parse(t).erro);$('st').className='ok';$('st').textContent='● Conectado ao MySQL (db_ansarah) · atualizado às '+new Date().toLocaleTimeString('pt-BR');if(t!==last){last=t;D=JSON.parse(t);render();if(!$('v_items').children.length)addItem()}}catch(e){$('st').className='bad';$('st').textContent='● Sem conexão com o servidor/MySQL: '+e.message}}
+// relatório (usa os filtros e os dados que estão na tela) e exportação CSV
+const snap=id=>{const c=C[id],cv=document.createElement('canvas');cv.width=560;cv.height=280;const x=new Chart(cv,{type:c.config.type,data:JSON.parse(JSON.stringify(c.data)),options:{...c.config.options,responsive:false,animation:false,maintainAspectRatio:false}});const u=x.toBase64Image();x.destroy();return u};
+$('rel').onclick=()=>{if(!D)return toast('Aguarde a conexão com o MySQL',1);let f=$('rf');if(!f){f=document.createElement('iframe');f.id='rf';f.style.cssText='position:fixed;width:0;height:0;border:0;right:0;bottom:0';document.body.appendChild(f)}const w=f.contentWindow;w.document.open();
+ const img=c=>`<img style="width:100%;max-height:260px;object-fit:contain" src="${snap(c)}">`,cl=x=>x.replace(/<button[\s\S]*?<\/button>/g,'').replace(/<th><\/th>/g,'').replace(/<td><\/td><\/tr>/g,'</tr>');
+ const fl=Object.entries(FL).map(([k,l])=>l+': '+$('f_'+k).selectedOptions[0].text).join(' · ');
+ w.document.write(`<html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório ANSARAH</title><style>${document.getElementById('appcss').textContent}body{padding:24px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{break-inside:avoid}@media print{body{background:#fff}}</style></head><body>
+ <h1>ANSARAH | Relatório Gerencial</h1><p style="color:#7d6a70">Gerado em ${new Date().toLocaleString('pt-BR')}<br>Filtros: ${fl}</p>
+ <div class="kpis">${$('kpis').innerHTML}</div>
+ <div class="g2"><div class="card"><h3>Evolução do faturamento</h3>${img('c1')}</div><div class="card"><h3>Vendas por canal</h3>${img('c3')}</div><div class="card"><h3>Varejo x Atacado</h3>${img('c2')}</div><div class="card"><h3>Produtos mais vendidos</h3>${img('c4')}</div></div>
+ <div class="card"><h3>Estoque que precisa de atenção</h3>${cl($('alerts').innerHTML)}</div><div class="card"><h3>Reposição de produtos</h3>${cl($('repo').innerHTML)}</div>
+ <div class="card"><h3>Últimas vendas</h3>${$('vlist').innerHTML}</div><div class="card"><h3>Auditoria recente</h3>${$('aud').innerHTML}</div><div class="card"><h3>Backups e restaurações</h3>${$('bk').innerHTML}</div></body></html>`);
+ w.document.close();setTimeout(()=>{w.focus();w.print()},800)};
+$('csv').onclick=()=>{if(!D)return toast('Aguarde a conexão com o MySQL',1);const k=$('csvT').value,r={estoque:D.skus,vendas:D.vendas,reposicao:D.repos,auditoria:D.audit}[k],h=Object.keys(r[0]||{}),
+ csv='\ufeff'+[h,...r.map(o=>h.map(c=>o[c]))].map(l=>l.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n'),a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='ansarah_'+k+'.csv';a.click()};
+
+// ===== Produtos: cadastrar / editar / excluir =====
+const api=async(u,body,o={})=>{const r=await fetch(u,{method:o.method||'POST',headers:{'Content-Type':o.ct||'application/json'},body:o.raw??JSON.stringify(body||{})});const j=await r.json();if(!r.ok)throw new Error(j.erro);return j};
+const PF={nome_produto:'p_nome',codigo_produto:'p_cod',descricao_produto:'p_desc',referencia_produto:'p_ref',codigo_ncm:'p_ncm',grupo_produto:'p_grupo',categoria_produto:'p_cat',tipo_produto:'p_tipo',unidade_tributacao_produto:'p_un',id_marca:'p_marca'};let EDIT=null;
+const pForm=p=>{EDIT=p?p.id_produto:null;Object.entries(PF).forEach(([k,id])=>{$(id).value=p?(p[k]??''):(k=='unidade_tributacao_produto'?'UN':'')});if(!p)$('p_marca').selectedIndex=0;$('p_ok').textContent=p?'Salvar alterações':'Cadastrar produto';$('p_cancel').style.display=p?'':'none';$('pdet').open=!!p;$('pdet').querySelector('summary').textContent=p?'Editando produto #'+p.id_produto:'+ Novo produto';if(p)$('pdet').scrollIntoView({behavior:'smooth'})};
+$('p_ok').onclick=async()=>{const b={};Object.entries(PF).forEach(([k,id])=>b[k]=$(id).value);try{await(EDIT?api('/api/produto/'+EDIT,b,{method:'PUT'}):api('/api/produto',b));toast(EDIT?'Produto atualizado ✓':'Produto cadastrado ✓');pForm(null);last='';load()}catch(e){toast(e.message,1)}};
+$('p_cancel').onclick=()=>pForm(null);
+$('prods').onclick=async e=>{const t=e.target;if(t.dataset.ed)return pForm(D.produtos.find(p=>p.id_produto==t.dataset.ed));if(t.dataset.del){const p=D.produtos.find(x=>x.id_produto==t.dataset.del);if(!confirm('Excluir o produto "'+p.nome_produto+'"?'))return;try{await api('/api/produto/'+p.id_produto,null,{method:'DELETE'});toast('Produto excluído ✓');last='';load()}catch(e){toast(e.message,1)}}};
+// ===== Backups e restaurações =====
+const stc=s=>{s=norm(s);return s.startsWith('conclu')?'OK':s.startsWith('falh')?'Falha':'baixo'};
+const dur=(a,b)=>{if(!a||!b)return '—';const s=(new Date(b.replace(' ','T'))-new Date(a.replace(' ','T')))/1000;return s<60?Math.round(s)+' s':Math.floor(s/60)+' min'+(Math.round(s%60)?' '+Math.round(s%60)+' s':'')};
+const sz=n=>n==null?'—':n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
+let TOK=null;
+function renderBk(){
+ fill('b_per',['Todo o período|0','Últimos 30 dias|30','Últimos 7 dias|7']);fill('b_tipo',['Backups e restaurações|','Somente backups|b','Somente restaurações|r']);fill('b_st',['Todos|','Concluído|OK','Falha|Falha','Pendente / em andamento|baixo']);
+ fill('b_resp',['Todos|',...new Set([...D.backups,...D.restores].map(x=>x.login_usuario).filter(Boolean))]);
+ const m=D.meta;$('bnote').innerHTML=`<div class="bn ${m.restauracaoPermitida?'ok':'no'}">Banco conectado: ${esc(m.banco)} · ${m.restauracaoPermitida?'restauração liberada (banco de teste)':'restauração bloqueada (use um banco de teste, ex.: db_ansarah_teste)'}</div>`;
+ $('rs_conf').placeholder=m.banco;$('rs_btn').disabled=!(TOK&&m.restauracaoPermitida);
+ const f=id=>$(id).value,lim=f('b_per')>0?Date.now()-f('b_per')*864e5:0,ok=(d,s,u)=>(!lim||new Date(d.replace(' ','T'))>=lim)&&(!f('b_st')||stc(s)==f('b_st'))&&(!f('b_resp')||u==f('b_resp'));
+ const B=f('b_tipo')=='r'?[]:D.backups.filter(b=>ok(b.data_inicio_backup,b.status_backup,b.login_usuario)),R=f('b_tipo')=='b'?[]:D.restores.filter(r=>ok(r.data_inicio_restauracao,r.status_restauracao,r.login_usuario));
+ const n=(a,k,c)=>a.filter(x=>stc(x[k])==c).length;
+ $('bkpis').innerHTML=[['Backups registrados',B.length],['Backups concluídos',n(B,'status_backup','OK')],['Backups com falha',n(B,'status_backup','Falha'),1],['Restaurações registradas',R.length],['Restaurações concluídas',n(R,'status_restauracao','OK')],['Restaurações com falha',n(R,'status_restauracao','Falha'),1]].map(k=>`<div class="kpi ${k[2]?'al':''}"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+ const bt=B.length?tb(['#','Tipo','Início','Término','Duração','Responsável','Status','Tamanho','Local de armazenamento',''],B.map(b=>`<tr><td>${b.id_backup}</td><td>${esc(b.tipo_backup)}</td><td>${dt(b.data_inicio_backup)}</td><td>${dt(b.data_fim_backup)}</td><td>${dur(b.data_inicio_backup,b.data_fim_backup)}</td><td>${esc(nm(b.login_usuario))}</td><td>${tag(stc(b.status_backup),b.status_backup)}</td><td>${sz(b.tamanho_backup_bytes)}</td><td>${esc(b.local_armazenamento)}</td><td>${b.disponivel?`<a class="b s" style="text-decoration:none" href="/api/backup/${b.id_backup}/download">Baixar</a>`:''}</td></tr>`)):'<p>Nenhum backup no filtro.</p>';
+ const rt=R.length?tb(['#','Início','Término','Duração','Responsável','Status','Motivo','Observações','Backup utilizado'],R.map(r=>`<tr><td>${r.id_restauracao}</td><td>${dt(r.data_inicio_restauracao)}</td><td>${dt(r.data_fim_restauracao)}</td><td>${dur(r.data_inicio_restauracao,r.data_fim_restauracao)}</td><td>${esc(nm(r.login_usuario))}</td><td>${tag(stc(r.status_restauracao),r.status_restauracao)}</td><td>${esc(r.motivo_restauracao)}</td><td>${esc(r.observacao_restauracao)}</td><td>#${r.id_backup} · ${esc(r.tipo_backup)} · ${dt(r.backup_data)}</td></tr>`)):'<p>Nenhuma restauração no filtro.</p>';
+ $('bk').innerHTML=(f('b_tipo')=='r'?'':'<h4>Backups</h4>'+bt)+(f('b_tipo')=='b'?'':'<h4>Restaurações</h4>'+rt);
+}
+document.querySelectorAll('#bfilters select').forEach(s=>s.onchange=()=>D&&renderBk());
+$('b_exp').onclick=async()=>{const b=$('b_exp');b.disabled=true;b.textContent='Gerando arquivo…';try{const r=await api('/api/backup/exportar');toast('Backup gerado: '+r.arquivo+' ('+sz(r.tamanho)+')');const a=document.createElement('a');a.href='/api/backup/'+r.id_backup+'/download';a.click()}catch(e){toast(e.message,1)}b.disabled=false;b.textContent='Exportar banco de dados';last='';load()};
+$('b_rest').onclick=()=>{const r=$('rp');r.style.display=r.style.display=='none'?'block':'none'};
+$('rv_btn').onclick=async()=>{const f=$('rf_in').files[0];TOK=null;$('rs_btn').disabled=true;if(!f)return toast('Selecione um arquivo .sql',1);if(f.size>50*1048576)return toast('Arquivo acima de 50 MB',1);
+ try{const r=await api('/api/restore/validar?nome='+encodeURIComponent(f.name),null,{raw:await f.text(),ct:'text/plain'}),s=r.resumo;TOK=r.token;$('rv').innerHTML=`${tag('OK','Arquivo válido')} ${esc(r.nome)} · ${sz(r.tamanho)} · ${s.tabelas} tabelas · ${s.criar} CREATE · ${s.inserir} INSERT${s.preservadas.length?' · histórico preservado: '+esc(s.preservadas.join(', ')):''}`;$('rs_btn').disabled=!D.meta.restauracaoPermitida}
+ catch(e){$('rv').innerHTML=tag('Falha','Arquivo rejeitado')+' '+esc(e.message)}};
+$('rs_btn').onclick=async()=>{if(!TOK)return;if(!confirm('Substituir os dados do banco "'+D.meta.banco+'" pelo conteúdo do arquivo?\n\nUm backup de segurança será gerado antes.'))return;
+ const t=TOK;TOK=null;$('rs_btn').disabled=true;$('rs_msg').textContent='Restaurando… não feche a página.';
+ try{const r=await api('/api/restore',{token:t,motivo:$('rs_mot').value,confirmacao:$('rs_conf').value});toast('Restauração concluída ✓');$('rs_msg').innerHTML=tag('OK','Concluída')+' '+esc(r.observacao)}catch(e){toast(e.message,1);$('rs_msg').innerHTML=tag('Falha','Não concluída')+' '+esc(e.message)}
+ $('rv').textContent='';last='';load()};
+// ===== Funcionários (somente leitura) =====
+let FD,flast='';
+function renderFunc(){
+ if(!FD)return;fill('f_dep',FD.departamentos.map(d=>`${d.nome_departamento}|${d.id_departamento}`));
+ fill('fdep',['Todos os departamentos|',...FD.departamentos.map(d=>`${d.nome_departamento}|${d.id_departamento}`)]);
+ const dep=$('fdep').value,q=norm($('fq').value.trim()),ids=new Set(FD.funcionarios.map(f=>f.id_funcionario));
+ const list=FD.funcionarios.filter(f=>(!dep||f.id_departamento==dep)&&(!q||norm(f.nome_funcionario).includes(q))),max=Math.max(1,...FD.departamentos.map(d=>d.total));
+ $('fkpis').innerHTML=[['Funcionários cadastrados',ids.size,'total no banco'],['Departamentos',FD.departamentos.length,'cadastrados'],['Exibindo',list.length,'conforme filtro e pesquisa']].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b><small>${k[2]}</small></div>`).join('');
+ $('fdept').innerHTML=tb(['Departamento','Funcionários',''],FD.departamentos.map(d=>`<tr><td>${esc(d.nome_departamento)}</td><td>${d.total}</td><td style="width:40%"><div style="height:8px;border-radius:99px;background:var(--pink)"><div style="height:8px;border-radius:99px;width:${d.total/max*100}%;background:var(--wine)"></div></div></td></tr>`));
+ $('flist').innerHTML=list.length?tb(['ID','Nome','Cargo','Departamento','Usuário do sistema','Acesso ao sistema'],list.map(f=>`<tr><td>${f.id_funcionario}</td><td>${esc(f.nome_funcionario)}</td><td>${esc(f.cargo_funcionario)}</td><td>${esc(f.nome_departamento)}</td><td>${esc(f.login_usuario)}</td><td>${f.status_usuario?tag(norm(f.status_usuario)=='ativo'?'OK':'baixo',f.status_usuario):'—'}</td></tr>`)):'<p>Nenhum funcionário encontrado.</p>';
+}
+async function loadFunc(){try{const r=await fetch('/api/funcionarios'),t=await r.text();if(!r.ok){let m=r.status;try{m=JSON.parse(t).erro||m}catch(_){}throw new Error(r.status==404?'o servidor está com a versão antiga: pare (Ctrl+C) e rode npm start de novo':m)}aviso('func','');if(t!==flast){flast=t;FD=JSON.parse(t);renderFunc();if(D)render()}}catch(e){aviso('func','⚠ Funcionários indisponível ('+e.message+').');if(!FD)$('flist').innerHTML='<p>Não foi possível carregar os funcionários: '+esc(e.message)+'</p>'}}
+$('fq').oninput=renderFunc;$('fdep').onchange=renderFunc;loadFunc();setInterval(loadFunc,4000);
+// ===== Avisos e opções básicas (as caixas nunca ficam sem opção) =====
+const ERR={};const aviso=(k,m)=>{ERR[k]=m;const t=Object.values(ERR).filter(Boolean).join(' ');const a=$('alerta');a.textContent=t;a.style.display=t?'block':'none'};
+fill('f_per',['Todo o período|0','Últimos 30 dias|30','Últimos 7 dias|7']);fill('f_can',['Todos|','Varejo|V','Atacado|A']);fill('f_sit',['Todas|','Normal|normal','Baixo|baixo','Sem estoque|sem']);
+fill('b_per',['Todo o período|0','Últimos 30 dias|30','Últimos 7 dias|7']);fill('b_tipo',['Backups e restaurações|','Somente backups|b','Somente restaurações|r']);fill('b_st',['Todos|','Concluído|OK','Falha|Falha','Pendente / em andamento|baixo']);fill('op',['— selecione —|']);
+// ===== Operador responsável (cabeçalho X-Operador em toda operação que grava) =====
+let OP='';try{OP=localStorage.getItem('ansarah_op')||''}catch(e){}
+const _fetch=window.fetch.bind(window);window.fetch=(u,o={})=>{if(o.method&&o.method!=='GET')o.headers={...(o.headers||{}),'X-Operador':OP};return _fetch(u,o)};
+const nm=l=>(FD&&FD.funcionarios.find(f=>f.login_usuario==l)?.nome_funcionario)||l||'—';
+async function loadOps(){try{const r=await _fetch('/api/operadores'),j=await r.json();if(!r.ok)throw new Error(r.status);aviso('op','');fill('op',['— selecione —|',...j.operadores.map(o=>`${o.nome_funcionario} · ${o.perfil_acesso}|${o.id_usuario}`)]);const s=$('op');if(!s.value&&OP&&[...s.options].some(o=>o.value==OP))s.value=OP;if(!s.value)OP='';else OP=s.value;$('f_perf').innerHTML=j.perfis.map(p=>`<option value="${esc(p)}">`).join('')}catch(e){aviso('op','⚠ Não foi possível carregar a lista de operadores. Provável causa: o server.js em execução é a versão antiga. Substitua o arquivo, pare o servidor (Ctrl+C) e rode npm start de novo.')}}
+$('op').onchange=()=>{OP=$('op').value;try{localStorage.setItem('ansarah_op',OP)}catch(e){}};
+$('f_ok').onclick=async()=>{try{await api('/api/operador',{nome_funcionario:$('f_nome').value,cargo_funcionario:$('f_cargo').value,id_departamento:$('f_dep').value,login_usuario:$('f_login').value,perfil_acesso:$('f_perfil').value});toast('Funcionário cadastrado ✓');['f_nome','f_cargo','f_login','f_perfil'].forEach(i=>$(i).value='');flast='';last='';loadFunc();loadOps();load()}catch(e){toast(e.message,1)}};
+loadOps();setInterval(loadOps,15000);
+load();setInterval(load,4000);
+</script></body></html>
